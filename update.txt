@@ -1,0 +1,37 @@
+ORAGIN game 更新记录
+
+对比代码版本：ORAGIN.py → game v0.2.py
+- 从回合格斗小品（网格移动/近战）重构为实时弹幕+技能制玩法：新增子弹、AOE、职业、道具、地图菜单/计数菜单、浮动伤害文字等完整系统。
+- 引入多实体体系（Ball/Block/Bullet/Item/Wall/Ripple/Trail/Debris等类）与统一 Game.update 循环，加入 buff/诅咒、尖刺、扫荡、三角弹、闪电链等技能。
+- UI 大幅扩展：计时/计分条、效果面板、职业选择、多种绘制层（墙、特效、轨迹、涟漪）。
+
+game v0.2.py → game v0.3.py
+- 新职业/召唤玩法：新增无人机单位(create_drone_unit)，六角散射弹(hex shot)及其任务调度。
+- 新武器模式 fire_hex_shot/start_hex_shot，新增 update_hex_burst_tasks/handle_hex_shot 相关逻辑，丰富弹幕形态。
+- 其他维持 v0.2 架构，扩展火力与辅助输出。
+
+game v0.3.py → game v0.4.py
+- 冰冻体系上线：新增 freeze ripple 类(FreezeRipple)、spawn_freeze_ripple/start_freeze_ripple/apply_freeze，支持范围减速/冻结特效。
+- 增加菜单美术绘制 draw_menu_ball/draw_menu_crown/draw_menu_hero_art，UI 氛围提升；新增颜色渐变 scale_color。
+- 绘制层新增 draw_freeze_ripples，更新循环增加 freeze_emitters/freeze_ripples 管理。
+
+game v0.4.py → game v0.5(UI).py
+- 以 UI 改进为主：保持玩法功能不变，重绘/调整菜单与界面（同 v0.4 的功能集，细节 UI/布局优化）。
+
+game v0.5(UI).py → game v0.6.py
+- 架构重塑：引入 EntityBase，拆分通用物理更新(common_update_physics)，增加检查胜负(check_winner)与赛后统计(draw_damage_stats)。
+- 新机制：吸血(vampire)、束缚(tether)、伤害统计(add_damage/_init_damage_stat)、暂停覆盖(draw_pause_overlay)等；地图尺寸配置 setup_map_dimensions。
+- UI/侧边栏(draw_sidebar/draw_info)与物理更新(common_update_physics)协同，玩法更偏竞技/数据化。
+
+game v0.6.py → game v0.7.py
+- “恶魔”玩法：恶魔附身/狂怒(start_demon_possession, trigger_demon_fury, process_demon_collision)、恶魔弹幕(fire_demon_bullets)、状态叠加(draw_demon_overlays)。
+- 新的失利补偿 add_demon_rage_on_loss，新增 update_demon 流程；延续吸血/束缚体系并整合 UI。
+- 持续平衡/效果叠加：新增 end_demon_possession 与恶魔/吸血/冰冻的可视化。
+
+game v0.7.py → game v0.8.py
+- 环境与元素玩法扩展：新增凤凰波(PhoenixWave 类)、凤凰重生(start_phoenix_egg/perch/finish_phoenix_rebirth)、雷电/电墙(electric_damage_on_hit, spawn_electric_wall, update_electric)、中毒圈(start_poison_circle/update_poison)。
+- 环境 UI/状态：draw_environment_overlays/draw_env_status、layout_row 改进布局；新增环境/天气更新(update_environment, update_thunder)。
+- 额外伤害机制：apply_phoenix_collision_damage、apply_thunder_damage、handle_phoenix_after_damage；新增防碰撞 detect_wall_side。
+- v0.8 补充（设置界面）：
+  - 设置界面“标签+选项”整体行，点击高亮且不遮挡内容；若行内容溢出，只有选中时显示行内滑块，可拖动查看最右侧选项，左上角保持返回提示。
+  - 环境栏新增“随机”选项，可随机选择一种环境危机进入游戏。
